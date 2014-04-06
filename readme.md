@@ -6,17 +6,19 @@ Choices), 301 (Permanent), and 307 (Temporary) redirects.
 
 ## Installation
 
-1. Clone this repository into the Phile ```plugins/``` directory to end up with
-```plugins/phileRedirect```
-2. Add ```$config['plugins']['phileRedirect'] = array('active' => true);``` to 
-your ```config.php``` file.
+Clone this repository into the Phile ```plugins/``` directory to end up with ```plugins/phileRedirect```
+
+Enable the plugin in your ```config.php``` file:
+
+```php
+$config['plugins']['phileRedirect'] = array('active' => true);
+```
 
 ## Examples
 
 Edit the plugins config file ```plugins/phileRedirect/config.php```
 
-```
-<?php
+```php
 // Permanent redirects
 '301' => array(
 	'/'          => '/another/page',
