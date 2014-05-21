@@ -2,26 +2,27 @@
 /**
  * Redirect Phile requests
  *
- * @package phileRedirect
+ * @package gibbs\redirect
  * @author  Dan Gibbs <i@dangibbs.co.uk>
  */
+namespace Phile\Plugin\Gibbs\Redirects;
 
-class phileRedirect extends \Phile\Plugin\AbstractPlugin implements 
-    \Phile\EventObserverInterface
+class Plugin extends \Phile\Plugin\AbstractPlugin implements
+    \Phile\Gateway\EventObserverInterface
 {
     /**
      * HTTP status codes
      *
      * @see http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
      */
-    private $response = array(
+    protected $response = array(
         300 => 'HTTP/1.1 300 Multiple Choices',
         301 => 'HTTP/1.1 301 Moved Permanently',
         307 => 'HTTP/1.1 307 Temporary Redirect',
     );
 
     /**
-     * Register plugin events
+     * Register plugin events via the constructor
      *
      * @return void
      */
@@ -39,12 +40,13 @@ class phileRedirect extends \Phile\Plugin\AbstractPlugin implements
      */
     public function on($eventKey, $data = null)
     {
-        if($eventKey == 'request_uri') {
-            
-            if($match = $this->findUri($data['uri'], $this->settings)) {
+        if($eventKey == 'request_uri')
+        {
+            if($match = $this->findUri($data['uri'], $this->settings))
+            {
                 header($this->response[$match['response']]);
                 header('Location: ' . $match['location']);
-            } 
+            }
         }
     }
 
@@ -55,18 +57,24 @@ class phileRedirect extends \Phile\Plugin\AbstractPlugin implements
      * @param  array   $redirects  Config array of uris to match
      * @return array|void
      */
-    private function findUri($uri = null, $redirects = array())
+    protected function findUri($uri = null, $redirects = array())
     {
         if($uri === null OR empty($redirects))
             return;
 
+        // Remove trailing slash
+        $uri = rtrim($uri, '/');
+
         foreach($redirects as $response => $urls)
         {
-            if(array_key_exists($uri, $urls))
+            if(!is_array($urls)) continue;
+
+            if(array_key_exists($uri, $urls) ) {
                 return array(
                     'response' => $response,
                     'location' => $urls[$uri],
                 );
+            }
         }
     }
 }

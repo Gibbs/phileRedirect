@@ -1,33 +1,24 @@
 phileRedirect
 =============
 
-A [Phile](https://github.com/PhileCMS/Phile) plugin to return 300 (Multiple 
-Choices), 301 (Permanent), and 307 (Temporary) redirects.
-
 ## Installation
 
-Clone this repository into the Phile ```plugins/``` directory to end up with ```plugins/phileRedirect```
+Clone this repository from the ```phile``` directory into 
+```plugins/gibbs/redirects```. E.g.
 
-Enable the plugin in your ```config.php``` file:
-
-```php
-$config['plugins']['phileRedirect'] = array('active' => true);
+```
+git clone git@github.com:Gibbs/phileRedirect.git plugins/gibbs/redirects
 ```
 
-## Examples
+Alternatively download and extract the contents into 
+```plugins/gibbs/redirects```.
 
-Edit the plugins config file ```plugins/phileRedirect/config.php```
 
-```php
-// Permanent redirects
-'301' => array(
-	'/'          => '/another/page',
-	'/some/page' => 'http://www.google.com/',
-),
+Finally activate it in your ```config.php``` file.
 
-// Temporary redirects
-'307' => array(
-	'/'       => '/maintenance',
-	'/mypage' => '/temporarily-unavailable',
-),
 ```
+$config['plugins']['gibbs\\redirects'] = array('active' => true);
+```
+
+## Redirect Examples
+
